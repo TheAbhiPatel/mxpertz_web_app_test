@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axiosInstance from "../utils/axiosInstance";
 import { useNavigate } from "react-router-dom";
 
 const AddNewStudent = () => {
+  const userInfo = localStorage.getItem("@userInfo");
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [studentId, setStudentId] = useState("");
@@ -13,6 +14,12 @@ const AddNewStudent = () => {
   const [webDFinalScore, setWebDFinalScore] = useState("");
   const [dsaFinalScore, setDsaFinalScore] = useState("");
   const [emptyFiledError, setEmptyFieldError] = useState(false);
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/login");
+    }
+  }, [userInfo]);
 
   const handleAddNewStudent = async (e: any) => {
     e.preventDefault();

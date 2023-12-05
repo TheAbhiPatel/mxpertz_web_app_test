@@ -9,3 +9,13 @@ export interface IStudent {
   dsaFinalScore: number;
   status: string;
 }
+
+export interface IInteview {
+  _id: string;
+  name: string;
+  studentId: string;
+  interviewTopic: string;
+  dateOfInterview: string;
+  companyName: string;
+  result: string;
+}

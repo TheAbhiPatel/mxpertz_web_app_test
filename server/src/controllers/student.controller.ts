@@ -55,7 +55,7 @@ export const addStudent: RequestHandler = async (req, res, next) => {
 
 // export const deleteStudent: RequestHandler = async (req, res, next) => {
 //   try {
-//     const todo = await todoModel.findByIdAndDelete(req.params.id);
+//     const student = await studentModel.findByIdAndDelete(req.params.id);
 //     res.status(200).json({ success: true, message: "Student deleted" });
 //   } catch (error) {
 //     next(error);

@@ -21,21 +21,33 @@ const Navbar = () => {
           <h1 className="text-xl font-semibold">Placement cell</h1>
         </NavLink>
       </div>
+
       {userInfo ? (
-        <div>
-          <span>
-            Hello{" "}
-            <span className="text-blue-600 font-bold">
-              {userInfo?.fullName}
+        <>
+          <ul className=" flex gap-5 text-indigo-500 font-semibold">
+            <li>
+              <NavLink to={"/"}>Students</NavLink>
+            </li>
+            <li>
+              <NavLink to={"/interviews"}>Interviews</NavLink>
+            </li>
+          </ul>
+
+          <div>
+            <span>
+              Hello{" "}
+              <span className="text-blue-600 font-bold">
+                {userInfo?.fullName}
+              </span>
             </span>
-          </span>
-          <span
-            onClick={handleLogout}
-            className="px-3 py-1 ml-10 bg-indigo-600 rounded-md text-white cursor-pointer"
-          >
-            Logout
-          </span>
-        </div>
+            <span
+              onClick={handleLogout}
+              className="px-3 py-1 ml-10 bg-indigo-600 rounded-md text-white cursor-pointer"
+            >
+              Logout
+            </span>
+          </div>
+        </>
       ) : (
         <div>
           <NavLink

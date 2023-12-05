@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
-import { IStudent } from "../interfaces";
+import { IInteview } from "../interfaces";
 import CsvDownloader from "react-csv-downloader";
+import InterViewTableRow from "../components/InterViewTableRow";
 
-const Home = () => {
+const Interviews = () => {
   const userInfo = localStorage.getItem("@userInfo");
   const navigate = useNavigate();
-  const [students, setStudents] = useState<IStudent[]>([]);
+  const [interviews, setInterviews] = useState<IInteview[]>([]);
 
   useEffect(() => {
     if (!userInfo) {
@@ -16,15 +17,15 @@ const Home = () => {
   }, [userInfo]);
 
   useEffect(() => {
-    handleFetchStudents();
+    handleFetchInterviews();
   }, []);
 
   /** ---> fetching data from api */
-  const handleFetchStudents = async () => {
+  const handleFetchInterviews = async () => {
     try {
-      const res = await axiosInstance.get(`/students`);
+      const res = await axiosInstance.get(`/interviews`);
       if (res.status === 200) {
-        setStudents(res.data.students);
+        setInterviews(res.data.interviews);
       }
     } catch (error) {
       console.log(error);
@@ -42,40 +43,32 @@ const Home = () => {
     },
 
     {
-      id: "batch",
-      displayName: "Batch",
+      id: "interviewTopic",
+      displayName: "Interview Topic",
     },
     {
-      id: "college",
-      displayName: "College",
+      id: "companyName",
+      displayName: "Company Name",
     },
     {
-      id: "reactFinalScore",
-      displayName: "React Final Score",
+      id: "dateOfInterview",
+      displayName: "Date of Interview",
     },
     {
-      id: "webDFinalScore",
-      displayName: "WebD Final Score",
-    },
-    {
-      id: "dsaFinalScor",
-      displayName: "DSA Final Scoree",
-    },
-    {
-      id: "status",
-      displayName: "Status",
+      id: "result",
+      displayName: "Result",
     },
   ];
 
   return (
     <div>
       <div className="max-w-5xl min-w-[50rem] mx-auto p-5  flex justify-between mt-10">
-        <h2 className="text-2xl font-bold ">Students</h2>
+        <h2 className="text-2xl font-bold ">Interviews</h2>
         <div className="flex gap-5">
           <CsvDownloader
-            datas={students}
+            datas={interviews}
             columns={columns}
-            filename="students.csv"
+            filename="interviews.csv"
             separator=","
           >
             <button className="px-3 py-1 ml-10 bg-indigo-600 rounded-md text-white cursor-pointer">
@@ -83,9 +76,9 @@ const Home = () => {
             </button>
           </CsvDownloader>
 
-          <NavLink to={"/add-student"}>
+          <NavLink to={"/create-interview"}>
             <button className="px-3 py-1 ml-10 bg-indigo-600 rounded-md text-white cursor-pointer">
-              Add New Student
+              Create Interview
             </button>
           </NavLink>
         </div>
@@ -104,55 +97,31 @@ const Home = () => {
                 Student Name
               </th>
               <th scope="col" className="px-6 py-3">
-                Batch
+                Interview Topic
               </th>
               <th scope="col" className="px-6 py-3">
-                College
+                Company Name
               </th>
               <th scope="col" className="px-6 py-3">
-                React Score
+                Date
               </th>
               <th scope="col" className="px-6 py-3">
-                WebD Score
+                Result
               </th>
               <th scope="col" className="px-6 py-3">
-                DSA Score
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Status
+                Update Result
               </th>
             </tr>
           </thead>
           <tbody>
-            {students.map((item, index) => {
-              const {
-                _id,
-                name,
-                batch,
-                studentId,
-                college,
-                reactFinalScore,
-                webDFinalScore,
-                dsaFinalScore,
-                status,
-              } = item;
+            {interviews.map((item, index) => {
               return (
-                <tr key={_id} className="bg-white border-b  ">
-                  <td className="px-6 py-4">{index + 1}</td>
-                  <td className="px-6 py-4">{studentId}</td>
-                  <th
-                    scope="row"
-                    className=" font-medium text-gray-900 whitespace-nowrap  cursor-pointer"
-                  >
-                    {name}
-                  </th>
-                  <td className="px-6 py-4">{batch}</td>
-                  <td className="px-6 py-4">{college}</td>
-                  <td className="px-6 py-4">{reactFinalScore}</td>
-                  <td className="px-6 py-4">{webDFinalScore}</td>
-                  <td className="px-6 py-4">{dsaFinalScore}</td>
-                  <td className="px-6 py-4">{status}</td>
-                </tr>
+                <InterViewTableRow
+                  key={item._id}
+                  item={item}
+                  index={index}
+                  handleFetchInterviews={handleFetchInterviews}
+                />
               );
             })}
           </tbody>
@@ -161,5 +130,4 @@ const Home = () => {
     </div>
   );
 };
-
-export default Home;
+export default Interviews;

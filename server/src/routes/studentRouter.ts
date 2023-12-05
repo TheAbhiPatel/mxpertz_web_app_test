@@ -5,6 +5,6 @@ const studentRouter = Router();
 
 studentRouter.get("/", getAllStudents);
 studentRouter.post("/", addStudent);
-// studentRouter.delete("/:id", deleteTodo);
+// studentRouter.delete("/:id", );
 
 export default studentRouter;
